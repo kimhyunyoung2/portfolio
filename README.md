@@ -17,7 +17,7 @@
 1. GitHub에서 이 저장소를 클론합니다.
 
    ```bash
-   git clone https://github.com/yourusername/portfolio.git
+   git clone https://github.com/kimhyunyoung2/portfolio.git
    ```
    
 2. 클론한 디렉토리로 이동합니다.
