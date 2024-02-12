@@ -18,13 +18,13 @@
 
    ```bash
    git clone https://github.com/yourusername/portfolio.git
-
+   ```
    
 2. 클론한 디렉토리로 이동합니다.
 
    ```bash
    cd portfolio
-
+   ```
 
 3. 로컬 서버를 실행하거나, 파일 시스템에서 직접 index.html 파일을 웹 브라우저에서 엽니다.
 
