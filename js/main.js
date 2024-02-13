@@ -84,7 +84,7 @@ window.addEventListener("mousemove", function (dets) {
 })
 
 frames.forEach(frame => {
-  frame.addEventListener("mousemove", function (dets) {
+  frame.addEventListener("mousemove", function () {
     gsap.to(circle, {
       scale: 7,
       opacity: .2,
@@ -92,7 +92,7 @@ frames.forEach(frame => {
     })
   })
 
-  frame.addEventListener("mouseleave", function (dets) {
+  frame.addEventListener("mouseleave", function () {
     gsap.to(circle, {
       scale: 1,
       opacity: 1
@@ -136,4 +136,32 @@ tl3.from("#loader .heading h1", {
     duration: 1,
     delay: -.5,
     ease: Circ.easeInOut,
-  })
+  });
+
+document.getElementById('btn_send_contact').addEventListener('click', function() {
+  try {
+    let name = document.querySelector('input[name="name"]').value;
+    let email = document.querySelector('input[name="email"]').value;
+    let subject = document.querySelector('input[name="subject"]').value;
+    let message = document.querySelector('textarea[name="message"]').value;
+
+    let url = 'https://script.google.com/macros/s/AKfycbz9jCyPzTWFB0W2IZ0YsPtQw0VbUWyE-BUsiAAyHmHjR58f3Tcq1WiQzamzEqkJ_56X/exec';
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        subject: subject,
+        message: message
+      })
+    })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch((error) => console.error('Error:', error));
+  } catch (e) {
+    console.log(e);
+  }
+});

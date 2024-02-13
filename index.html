@@ -66,28 +66,28 @@
                 <div class="content">
                     <div class="top">
                         <p>언제든지 저에게 연락할 수 있습니다.<br/>메일을 보내 저와 소통해보세요!</p>
-                        <img id="frame" class="close2" src="./images/component-7.png" alt="닫기">
+                        <img class="close2" src="./images/component-7.png" alt="닫기">
                     </div>
                     <div class="form">
                         <p>
-                            <span class="title">Name</span>
-                            <input type="name" name="name">
+                            <span class="title"><label for="name">Name</label></span>
+                            <input type="text" name="name" id="name">
                         </p>
                         <p>
-                            <span class="title">Mail</span>
-                            <input type="email" name="email">
+                            <span class="title"><label for="email">Mail</label></span>
+                            <input type="email" name="email" id="email">
                         </p>
                         <p>
-                            <span class="title">Subject</span>
-                            <input type="email" name="email">
+                            <span class="title"><label for="subject">Subject</label></span>
+                            <input type="text" name="subject" id="subject">
                         </p>
                         <p class="textarea">
-                            <span class="title">Message</span>
-                            <textarea type="text" name="text"></textarea>
+                            <span class="title"><label for="message">Message</label></span>
+                            <textarea name="message" id="message"></textarea>
                         </p>
                         <div class="contact_btn">
-                            <div class="button" id="frame">
-                                <a href="#a" class="m-flip js-flip">
+                            <div class="button" id="btn_send_contact">
+                                <a href="#" class="m-flip js-flip">
                                     <span class="m-flip_item">보내기</span>
                                     <span class="m-flip_item">보내기</span>
                                 </a>
@@ -97,13 +97,13 @@
                 </div>
                 <ul>
                     <li>
-                        <a id="frame" href="tel:010-2806-3182" class="m-flip js-flip">
+                        <a href="tel:010-2806-3182" class="m-flip js-flip">
                             <span class="m-flip_item">tel</span>
                             <span class="m-flip_item">tel</span>
                         </a>
                     </li>
                     <li>
-                        <a id="frame" href="mailto:jaykayhy@gmail.com" class="m-flip js-flip">
+                        <a href="mailto:jaykayhy@gmail.com" class="m-flip js-flip">
                             <span class="m-flip_item">mail</span>
                             <span class="m-flip_item">mail</span>
                         </a>
@@ -124,7 +124,7 @@
                     <li><a href="./index.html" class="active">Home</a></li>
                     <li><a href="./about.html">About</a></li>
                     <li><a href="./projects.html">Projects</a></li>
-                    <li><a href="#a" class="btnc">Contact</a></li>
+                    <li><a href="#" class="btnc">Contact</a></li>
                 </ul>
                 <div class="social mobileSocial">
                     <p>Social</p>
@@ -152,12 +152,12 @@
                     <li class="active"><a href="./index.html">Home</a></li>
                     <li><a href="./about.html">About</a></li>
                     <li><a href="./projects.html">Projects</a></li>
-                    <li><a href="#a" class="btncc">Contact</a></li>
+                    <li><a href="#" class="btncc">Contact</a></li>
                 </ul>
             </div>
             <div class="nav_btn">
                 <div class="button">
-                    <a href="#a" class="m-flip js-flip">
+                    <a href="#" class="m-flip js-flip">
                         <span class="m-flip_item">Menu</span>
                         <span class="m-flip_item">Menu</span>
                     </a>
@@ -165,7 +165,7 @@
             </div>
             <div class="nav_socials">
                 <p>Social</p>
-                <ul id="frame">
+                <ul>
                     <li>
                         <a href="https://butter-archduke-1c6.notion.site/1f53f0b6965543c1a836e6593adf06d5" target="_blank" class="m-flip js-flip">
                             <span class="m-flip_item">Notion</span>
@@ -192,7 +192,7 @@
               </div>
             
               <div class="main-txt main-txt--secondary" aria-hidden="true" data-hero>
-                <p class="main-txt__heading"><h1>다양한 웹, 앱 프로젝트를 경험한 전문가로<br />협업과 소통을 강조하는 퍼블리셔입니다.</h1></p>
+                <div class="main-txt__heading"><h1>다양한 웹, 앱 프로젝트를 경험한 전문가로<br />협업과 소통을 강조하는 퍼블리셔입니다.</h1></div>
               </div>
             <div class="right">
                 
@@ -201,7 +201,7 @@
 
         <section class="project container top">
             <div class="project_wrapper">
-                <div class="project top" id="frame">
+                <div class="project top">
                     <img src="./images/verseplay_pc_1.png" alt="verseplay pc 이미지">
                     <div class="project_text container">
                         <p>Verseplay</p>
@@ -211,7 +211,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="project" id="frame">
+                <div class="project">
                     <img src="./images/verseplay_admin_1.png" alt="verseplay admin 이미지">
                     <div class="project_text container">
                         <p>Verseplay Admin</p>
@@ -221,7 +221,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="project" id="frame">
+                <div class="project">
                     <img src="./images/aritaum_pc.png" alt="aritaum pc 이미지">
                     <div class="project_text container">
                         <p>Aritaum</p>
@@ -233,8 +233,8 @@
                 </div>
             </div>
             <div class="project_btn">
-                <div class="button" id="frame" onclick="location.href='projects.html'">
-                    <a href="#a" class="m-flip js-flip">
+                <div class="button" onclick="location.href='projects.html'">
+                    <a href="#" class="m-flip js-flip">
                         <span class="m-flip_item">All Projects</span>
                         <span class="m-flip_item">All Projects</span>
                     </a>
@@ -306,7 +306,7 @@
                             새로운 기술과 트렌드에 대한 높은 관심을 가지고 있으며, 최신 기술을 습득하고 효과적으로 활용하기 위해 항상 노력하고 있습니다. 
                             더 많은 분들과의 소중한 경험을 쌓아가며 지속적인 도전과 성장을 통해 더 나은 퍼블리셔로 나아가고자 합니다.
                         </p>
-                        <a id="frame" href="./about.html" class="m-flip js-flip">
+                        <a href="./about.html" class="m-flip js-flip">
                             <span class="m-flip_item">Read More</span>
                             <span class="m-flip_item">Read More</span>
                         </a>
