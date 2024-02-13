@@ -145,7 +145,7 @@ document.getElementById('btn_send_contact').addEventListener('click', function()
     let subject = document.querySelector('input[name="subject"]').value;
     let message = document.querySelector('textarea[name="message"]').value;
 
-    let url = 'https://script.google.com/macros/s/AKfycbzrQ3Jr-VbU56zMnU7m8kRgsN_WR3f829jbHAoo4NcdjvsEFwwkSUDVwzPrgr-e8PkC/exec';
+    let url = 'https://script.google.com/macros/s/AKfycbzuQne34kGt5SFjHeyEWhj0EgZ8PBQYKbgm6y6ZxztOzXYQ90IH3H3deIE1upefrZPA/exec';
     fetch(url, {
       method: 'POST',
       headers: {
