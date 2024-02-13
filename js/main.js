@@ -145,22 +145,47 @@ document.getElementById('btn_send_contact').addEventListener('click', function()
     let subject = document.querySelector('input[name="subject"]').value;
     let message = document.querySelector('textarea[name="message"]').value;
 
-    let url = 'https://script.google.com/macros/s/AKfycbzgynKtLrvGW-YM1JCa78TQ0lS6h0fbzgm3uJ97VB2jxDqN4kzG0bDT2pCnPzY8M6Va/exec';
-    // URLSearchParams를 사용하여 데이터를 URL 인코딩된 형태로 준비
-    let formData = new URLSearchParams();
-    formData.append('name', name);
-    formData.append('email', email);
-    formData.append('subject', subject);
-    formData.append('message', message);
+    if (!name) {
+      alert('이름을 입력해주세요.');
+    }
+    else if (!email) {
+      alert('이메일을 입력해주세요.');
+    }
+    else if (!subject) {
+      alert('제목을 입력해주세요.');
+    }
+    else if (!message) {
+      alert('내용을 입력해주세요.');
+    }
+    else {
+      let url = 'https://script.google.com/macros/s/AKfycbzgynKtLrvGW-YM1JCa78TQ0lS6h0fbzgm3uJ97VB2jxDqN4kzG0bDT2pCnPzY8M6Va/exec';
+      let formData = new URLSearchParams();
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('subject', subject);
+      formData.append('message', message);
 
-    fetch(url, {
-      method: 'POST',
-      // 'Content-Type': 'application/json', // 이 부분을 삭제하거나 주석 처리
-      body: formData // JSON.stringify 대신 formData 사용
-    })
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch((error) => console.error('Error:', error));
+      fetch(url, {
+        method: 'POST',
+        body: formData
+      })
+          .then(response => response.json())
+          .then(function(data) {
+            try {
+              if (data.result === 'success') {
+                alert('등록이 완료됐습니다.');
+                // name, email, subject, message 값 비워주기
+                document.querySelector('input[name="name"]').value = '';
+                document.querySelector('input[name="email"]').value = '';
+                document.querySelector('input[name="subject"]').value = '';
+                document.querySelector('textarea[name="message"]').value = '';
+              }
+            } catch (e) {
+              console.log(e);
+            }
+          })
+          .catch((error) => console.error('Error:', error));
+    }
   } catch (e) {
     console.log(e);
   }
