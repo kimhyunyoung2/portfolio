@@ -1941,7 +1941,7 @@ nav .nav_btn {
   margin-top: 0;
 }
 .contact .wrapper .content .form p input {
-  font-size: 1.45vw;
+  font-size: 1.1vw;
   letter-spacing: -0.5px;
   background: none;
   border: none;
@@ -1952,7 +1952,7 @@ nav .nav_btn {
   width: fit-content;
 }
 .contact .wrapper .content .form p textarea {
-  font-size: 1.45vw;
+  font-size: 1.1vw;
   letter-spacing: -0.5px;
   background: none;
   border: none;
@@ -1968,23 +1968,23 @@ nav .nav_btn {
 }
 @media only screen and (max-width: 1140px) {
   .contact .wrapper .content .form p input {
-    font-size: 1.7vw;
+    font-size: 1.3vw;
   }
 }
 @media only screen and (max-width: 912px) {
   .contact .wrapper .content .form p input {
-    font-size: 2.8vw;
+    font-size: 2.4vw;
   }
   .contact .wrapper .content .form p textarea {
-    font-size: 2.8vw;
+    font-size: 2.4vw;
   }
 }
 @media only screen and (max-width: 670px) {
   .contact .wrapper .content .form p input {
-    font-size: 3.5vw;
+    font-size: 3vw;
   }
   .contact .wrapper .content .form p textarea {
-    font-size: 3.5vw;
+    font-size: 3vw;
   }
 }
 @media only screen and (max-width: 912px) {
