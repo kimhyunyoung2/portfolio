@@ -145,7 +145,7 @@ document.getElementById('btn_send_contact').addEventListener('click', function()
     let subject = document.querySelector('input[name="subject"]').value;
     let message = document.querySelector('textarea[name="message"]').value;
 
-    let url = 'https://script.google.com/macros/s/AKfycbyq8XmcOYxmDKWBVl887kL1X9Mf-eZ7e6kmXaGHNcz73UpJ-7C6mkGZ1-v-ZBRv8bN5/exec';
+    let url = 'https://script.google.com/macros/s/AKfycbzgynKtLrvGW-YM1JCa78TQ0lS6h0fbzgm3uJ97VB2jxDqN4kzG0bDT2pCnPzY8M6Va/exec';
     // URLSearchParams를 사용하여 데이터를 URL 인코딩된 형태로 준비
     let formData = new URLSearchParams();
     formData.append('name', name);
