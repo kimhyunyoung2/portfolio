@@ -146,17 +146,17 @@ document.getElementById('btn_send_contact').addEventListener('click', function()
     let message = document.querySelector('textarea[name="message"]').value;
 
     let url = 'https://script.google.com/macros/s/AKfycbzuQne34kGt5SFjHeyEWhj0EgZ8PBQYKbgm6y6ZxztOzXYQ90IH3H3deIE1upefrZPA/exec';
+    // URLSearchParams를 사용하여 데이터를 URL 인코딩된 형태로 준비
+    let formData = new URLSearchParams();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('subject', subject);
+    formData.append('message', message);
+
     fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: name,
-        email: email,
-        subject: subject,
-        message: message
-      })
+      // 'Content-Type': 'application/json', // 이 부분을 삭제하거나 주석 처리
+      body: formData // JSON.stringify 대신 formData 사용
     })
         .then(response => response.json())
         .then(data => console.log(data))
@@ -165,3 +165,4 @@ document.getElementById('btn_send_contact').addEventListener('click', function()
     console.log(e);
   }
 });
+
