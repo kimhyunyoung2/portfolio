@@ -278,7 +278,6 @@ a {
 /* components */
 @import "font";
 @import "nav";
-@import "hero";
 @import "project";
 @import "about";
 @import "awward";
@@ -287,3 +286,4 @@ a {
 /* pages */
 @import "./pages/about";
 @import "./pages/project";
+@import "./pages/demo";
