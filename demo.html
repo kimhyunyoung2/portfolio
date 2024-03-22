@@ -206,28 +206,4 @@
 
 
 </body>
-<script>
-    const hero = document.querySelector('[data-hero]')
-
-    const handleMove = (e) => {
-    let clientX, clientY;
-
-    if (e.touches) {
-        clientX = e.touches[0].clientX;
-        clientY = e.touches[0].clientY;
-    } else {
-        clientX = e.clientX;
-        clientY = e.clientY;
-    }
-
-    const x = Math.round((clientX / window.innerWidth) * 100);
-    const y = Math.round((clientY / window.innerHeight) * 100);
-
-    hero.style.setProperty('--x', `${x}%`);
-    hero.style.setProperty('--y', `${y}%`);
-    };
-
-    window.addEventListener('touchmove', handleMove);
-    window.addEventListener('mousemove', handleMove);
-</script>
 </html>
