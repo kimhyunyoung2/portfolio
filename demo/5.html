@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>예제 5</title>
+        <style>
+            .calculator {
+                width: 280px;
+                background-color: #fff;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 20px;
+            }
+
+            .display {
+                width: calc(100% - 20px);
+                margin-bottom: 20px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                text-align: right;
+            }
+
+            .buttons {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+            }
+
+            .button {
+                padding: 20px;
+                font-size: 16px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            .button:hover {
+                background-color: #f4f4f4;
+            }
+
+            .equals {
+                grid-column: span 2;
+            }
+
+            .clear,
+            .delete {
+                background-color: #ffcccc;
+            }
+
+            .add,
+            .divide,
+            .multiply,
+            .subtract {
+                background-color: #ccccff;
+            }
+        </style>
+        <script src="./markdown.js"></script>
+    </head>
+    <body>
+        
+        <article class="markdown-body">
+# 계산기 구현
+
+웹 페이지에 간단한 계산기를 구현한 이 예제에서는 기본적인 사칙연산을 수행할 수 있습니다.
+
+## 구현 세부사항
+
+### HTML 구조
+- 계산기 컨테이너(`.calculator`), 입력 필드(`.display`), 버튼 컨테이너(`.buttons`), 개별 버튼(`.button`)으로 구성됩니다.
+
+### JavaScript 동작
+- 숫자와 연산자 버튼 클릭 시 입력 필드에 추가되며, `=` 버튼으로 계산을 수행합니다. `C` 버튼으로 입력을 초기화하고, `DEL` 버튼으로 마지막 입력을 삭제합니다.
+        </article>
+        <div class="calculator">
+            <input type="text" class="display" disabled="disabled">
+            <div class="buttons">
+                <button class="button clear">C</button>
+                <button class="button divide">/</button>
+                <button class="button multiply">*</button>
+                <button class="button delete">DEL</button>
+                <button class="button number">7</button>
+                <button class="button number">8</button>
+                <button class="button number">9</button>
+                <button class="button subtract">-</button>
+                <button class="button number">4</button>
+                <button class="button number">5</button>
+                <button class="button number">6</button>
+                <button class="button add">+</button>
+                <button class="button number">1</button>
+                <button class="button number">2</button>
+                <button class="button number">3</button>
+                <button class="button equals" colspan="2">=</button>
+                <button class="button number">0</button>
+                <button class="button decimal">.</button>
+            </div>
+        </div>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.number, .decimal').click(function () {
+                var current = $('.display').val();
+                var number = $(this).text();
+                $('.display').val(current + number);
+            });
+
+            $('.add, .subtract, .multiply, .divide').click(function () {
+                var current = $('.display').val();
+                var operator = $(this).text();
+                $('.display').val(current + ' ' + operator + ' ');
+            });
+
+            $('.equals').click(function () {
+                var calculation = $('.display').val();
+                var result = eval(calculation);
+                $('.display').val(result);
+            });
+
+            $('.clear').click(function () {
+                $('.display').val('');
+            });
+
+            $('.delete').click(function () {
+                var current = $('.display').val();
+                $('.display').val(current.slice(0, -1)); // 마지막 문자 삭제
+            });
+
+            $(document).keyup(function (e) {
+                var key = e.key;
+                var current = $('.display').val();
+                var allowedKeys = [
+                    '0',
+                    '1',
+                    '2',
+                    '3',
+                    '4',
+                    '5',
+                    '6',
+                    '7',
+                    '8',
+                    '9',
+                    '.',
+                    '+',
+                    '-',
+                    '*',
+                    '/'
+                ];
+
+                // 숫자, 점, 연산자 입력 처리
+                if (allowedKeys.includes(key)) {
+                    $('.display').val(current + key);
+                }
+
+                // Enter 키를 누를 경우 계산 실행
+                if (key === 'Enter') {
+                    var calculation = $('.display').val();
+                    var result = eval(calculation);
+                    $('.display').val(result);
+                }
+
+                // Backspace 키를 누를 경우 마지막 문자 삭제
+                if (key === 'Backspace') {
+                    $('.display').val(current.slice(0, -1));
+                }
+
+                // ESC 키를 누를 경우 디스플레이 초기화
+                if (key === 'Escape') {
+                    $('.display').val('');
+                }
+            });
+        });
+    </script>
+  
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>예제 9</title>
+        <style>
+            div {
+                margin-top: 20px;
+            }
+        </style>
+        <script src="./markdown.js"></script>
+    </head>
+    <body>
+        
+        <article class="markdown-body">
+
+# 이미지 지연 로딩(Lazy Loading) 기능 구현
+
+웹 페이지 내 이미지 리소스의 로딩을 지연시키는 기능을 구현하여 초기 페이지 로드 시간을 개선했습니다. 이를 통해 사용자 경험을 향상시킬 수 있습니다.
+
+## 구현 세부사항
+
+### HTML 구조
+- 지연 로딩을 적용할 이미지들을 `img.lazyload` 클래스와 함께 `data-src` 속성에 실제 이미지 URL을 저장하여 배치했습니다. 이를 통해 초기 로딩 시에는 이미지 대신 가벼운 이미지가 로드됩니다.
+
+### JavaScript 동작
+- Lazy Load 라이브러리를 사용하여 `DOMContentLoaded` 이벤트가 발생하면 지연 로딩을 적용했습니다. 사용자가 스크롤하여 이미지가 보이는 부분에 도달하면, 실제 이미지가 로드되어 사용자에게 표시됩니다.
+        </article>
+        <div><img
+            width="500"
+            height="750"
+            class="lazyload"
+            src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMXB4IiBoZWlnaHQ9IjFweCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNDQ0NDQ0MiLz48L3N2Zz4="
+            data-src="https://images.unsplash.com/photo-1682687982141-0143020ed57a?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Image 1"></div>
+        <div><img
+            width="500"
+            height="636"
+            class="lazyload"
+            src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMXB4IiBoZWlnaHQ9IjFweCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNDQ0NDQ0MiLz48L3N2Zz4="
+            data-src="https://images.unsplash.com/photo-1710756115964-f949e92b97fb?q=80&w=2712&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Image 2"></div>
+        <div><img
+            width="500"
+            height="333"
+            class="lazyload"
+            src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMXB4IiBoZWlnaHQ9IjFweCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNDQ0NDQ0MiLz48L3N2Zz4="
+            data-src="https://images.unsplash.com/photo-1707343846292-56e4c6abf291?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Image 3"></div>
+        <div><img
+            width="500"
+            height="751"
+            class="lazyload"
+            src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMXB4IiBoZWlnaHQ9IjFweCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNDQ0NDQ0MiLz48L3N2Zz4="
+            data-src="https://images.unsplash.com/photo-1710743387063-f8f67e2abf81?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Image 4"></div>
+        <div><img
+            width="500"
+            height="500"
+            class="lazyload"
+            src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMXB4IiBoZWlnaHQ9IjFweCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNDQ0NDQ0MiLz48L3N2Zz4="
+            data-src="https://images.unsplash.com/photo-1710724267366-4f86badd3244?q=80&w=2748&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Image 5"></div>
+        <div><img
+            width="500"
+            height="829"
+            class="lazyload"
+            src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMXB4IiBoZWlnaHQ9IjFweCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNDQ0NDQ0MiLz48L3N2Zz4="
+            data-src="https://images.unsplash.com/photo-1710677742831-e144db07f684?q=80&w=2031&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Image 6"></div>
+        <div><img
+            width="500"
+            height="750"
+            class="lazyload"
+            src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMXB4IiBoZWlnaHQ9IjFweCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNDQ0NDQ0MiLz48L3N2Zz4="
+            data-src="https://images.unsplash.com/photo-1710743421854-52c1d33d7d37?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Image 7"></div>
+        <div><img
+            width="500"
+            height="751"
+            class="lazyload"
+            src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMXB4IiBoZWlnaHQ9IjFweCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNDQ0NDQ0MiLz48L3N2Zz4="
+            data-src="https://images.unsplash.com/photo-1710743385031-c281b779d125?q=80&w=2786&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Image 8"></div>
+        <div><img
+            width="500"
+            height="750"
+            class="lazyload"
+            src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMXB4IiBoZWlnaHQ9IjFweCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNDQ0NDQ0MiLz48L3N2Zz4="
+            data-src="https://images.unsplash.com/photo-1682687220363-35e4621ed990?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Image 9"></div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            const images = document.querySelectorAll('img.lazyload');
+            lazyload(images);
+
+        })
+    </script>
+</html>

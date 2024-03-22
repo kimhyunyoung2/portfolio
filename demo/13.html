@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>예제 13</title>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.css"
+            rel="stylesheet">
+        <style>
+            img {
+                max-width: 300px;
+            }
+            .container {
+                margin-top: 20px;
+                text-align: center;
+            }
+            #croppedResult {
+                display: none;
+            }
+            #dataUrl {
+                width: 100%;
+                margin-top: 10px;
+            }
+        </style>
+        <script src="./markdown.js"></script>
+    </head>
+    <body>
+        <article class="markdown-body">
+# 이미지 크롭 기능 구현 예시
+
+Cropper.js 라이브러리를 활용하여 사용자가 이미지를 선택하고 크롭할 수 있는 기능을 구현했습니다. 크롭된 이미지의 데이터 URL은 사용자가 복사할 수 있습니다.
+
+## 구현 세부사항
+
+### HTML 구조
+- 이미지 선택을 위한 `input type="file"` 필드, 선택된 이미지를 표시하고 크롭하기 위한 `<img>` 태그, 크롭된 이미지 결과를 보여주는 또 다른 `<img>` 태그, 크롭된 이미지의 데이터 URL을 복사하기 위한 버튼과 `textarea`가 포함됩니다.
+
+### JavaScript 동작
+- 이미지 파일 선택 시 FileReader API를 사용하여 이미지를 미리 보여주고, Cropper.js로 크롭할 수 있도록 합니다. 
+- '이미지 자르기' 버튼 클릭 시 크롭된 이미지의 데이터 URL을 생성하여 `textarea`와 결과 이미지 태그에 표시합니다. 
+- '자른 이미지 데이터 주소' 버튼을 클릭하면 데이터 URL이 클립보드에 복사됩니다.
+- 파일 선택 시 이미지 파일인지 확인하는 로직을 추가하여, 이미지 파일이 아닌 경우 사용자에게 경고 메시지를 표시하고 파일 입력 필드를 초기화합니다.
+        </article>
+        <div class="container">
+            <input type="file" id="inputImage">
+            <img id="image" style="display:none;">
+            <button id="cropButton">이미지 자르기</button>
+            <button id="copyDataUrlButton">자른 이미지 데이터 주소</button>
+            <textarea id="dataUrl" rows="4" placeholder=""></textarea>
+            <img id="croppedResult">
+        </div>
+
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.js"></script>
+        <script>
+            let cropper;
+            document
+                .getElementById('inputImage')
+                .addEventListener('change', function (e) {
+                    const files = e.target.files;
+                    if (files && files.length > 0) {
+                        const file = files[0];
+                        // 이미지 파일인지 확인
+                        if (/^image\/\w+/.test(file.type)) {
+                            const reader = new FileReader();
+                            reader.onload = function () {
+                                const url = reader.result;
+                                const image = document.getElementById('image');
+                                image.src = url;
+                                image.style.display = 'block';
+                                if (cropper) {
+                                    cropper.destroy();
+                                }
+                                cropper = new Cropper(image, {
+                                    aspectRatio: NaN,
+                                    viewMode: 1,
+                                    autoCropArea: 0.8,
+                                    responsive: true,
+                                    guides: true,
+                                    center: true,
+                                    highlight: true,
+                                    cropBoxMovable: true,
+                                    cropBoxResizable: true
+                                });
+                            };
+                            reader.readAsDataURL(file);
+                        } else {
+                            // 이미지 파일이 아닌 경우 경고 메시지 표시
+                            alert('이미지 파일만 업로드 가능합니다.');
+                            // 파일 입력 필드 초기화
+                            e.target.value = '';
+                        }
+                    }
+                });
+
+            document
+                .getElementById('cropButton')
+                .addEventListener('click', function () {
+                    if (cropper) {
+                        const dataUrl = cropper
+                            .getCroppedCanvas()
+                            .toDataURL();
+                        document
+                            .getElementById('dataUrl')
+                            .value = dataUrl;
+                        document
+                            .getElementById('croppedResult')
+                            .src = dataUrl;
+                        document
+                            .getElementById('croppedResult')
+                            .style
+                            .display = 'block';
+                    }
+                });
+
+            document
+                .getElementById('copyDataUrlButton')
+                .addEventListener('click', function () {
+                    const dataUrlBox = document.getElementById('dataUrl');
+                    dataUrlBox.select();
+                    document.execCommand('copy');
+                });
+        </script>
+    </body>
+</html>

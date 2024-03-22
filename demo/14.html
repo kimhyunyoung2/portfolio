@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>예제 13</title>
+        <link
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            rel="stylesheet">
+        <style>
+            .completed {
+                text-decoration: line-through;
+                color: #6c757d;
+            }
+            .hidden {
+                display: none;
+            }
+        </style>
+        <script src="./markdown.js"></script>
+    </head>
+    <body>
+        <article class="markdown-body">
+# To Do List 관리 구현
+
+사용자가 할 일을 추가하고, 할 일의 완료 여부를 표시하며, 필요 없는 할 일을 삭제할 수 있는 간단한 웹 애플리케이션을 구현했습니다. 모든 To Do List 브라우저의 로컬 스토리지에 저장되어, 사용자가 애플리케이션을 다시 방문할 때 이전 상태를 복원할 수 있습니다.
+
+## 구현 세부사항
+
+### HTML 구조
+- 할 일을 입력할 수 있는 입력 필드와 추가 버튼이 포함된 입력 그룹, 추가된 To Do List 표시하는 리스트가 있으며, 각 항목 옆에는 완료 및 삭제 버튼이 있습니다.
+
+### JavaScript 동작
+- 할 일을 추가하는 기능, To Do List를 로컬 스토리지에 저장하는 기능, 페이지 로드 시 저장된 To Do List 불러오는 기능이 구현되어 있습니다. 각 To Do List 옆의 완료 버튼을 클릭하면 해당 할 일이 완료 상태로 토글되고, 삭제 버튼을 클릭하면 해당 항목이 목록에서 제거됩니다. 입력 필드에서 Enter 키를 눌러도 할 일이 추가됩니다.            
+        </article>
+        <div class="container mt-5">
+            <h2 class="text-center mb-4">To Do List</h2>
+            <div class="input-group mb-3">
+                <input type="text" id="todoInput" class="form-control" placeholder="할 일 추가...">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" onclick="addTodo()">추가</button>
+                </div>
+            </div>
+            <ul id="todoList" class="list-group"></ul>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', loadTodos);
+            document
+                .getElementById('todoInput')
+                .addEventListener('keypress', function (event) {
+                    if (event.key === 'Enter') {
+                        addTodo();
+                    }
+                });
+
+            function createTodoElement(todoText, completed = false) {
+                const todoList = document.getElementById('todoList');
+                const newTodo = document.createElement('li');
+                newTodo
+                    .classList
+                    .add(
+                        'list-group-item',
+                        'd-flex',
+                        'justify-content-between',
+                        'align-items-center'
+                    );
+                const textSpan = document.createElement('span');
+                textSpan.textContent = todoText;
+                if (completed) {
+                    textSpan
+                        .classList
+                        .add('completed');
+                }
+                const buttonsContainer = document.createElement('div');
+                buttonsContainer
+                    .classList
+                    .add('d-flex', 'justify-content-end');
+
+                const completeBtn = document.createElement('button');
+                completeBtn
+                    .classList
+                    .add(
+                        'btn',
+                        completed
+                            ? 'btn-secondary'
+                            : 'btn-success',
+                        'btn-sm',
+                        'ml-2'
+                    );
+                completeBtn.textContent = completed
+                    ? '미완료'
+                    : '완료';
+                completeBtn.onclick = function () {
+                    textSpan
+                        .classList
+                        .toggle('completed');
+                    completeBtn
+                        .classList
+                        .toggle('btn-secondary');
+                    completeBtn
+                        .classList
+                        .toggle('btn-success');
+                    completeBtn.textContent = textSpan
+                        .classList
+                        .contains('completed')
+                            ? '미완료'
+                            : '완료';
+                    saveTodos();
+                };
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn
+                    .classList
+                    .add('btn', 'btn-danger', 'btn-sm', 'ml-2');
+                deleteBtn.textContent = '삭제';
+                deleteBtn.onclick = function () {
+                    newTodo.remove();
+                    saveTodos();
+                };
+
+                buttonsContainer.appendChild(completeBtn);
+                buttonsContainer.appendChild(deleteBtn);
+
+                newTodo.appendChild(textSpan);
+                newTodo.appendChild(buttonsContainer);
+
+                todoList.appendChild(newTodo);
+            }
+
+            function addTodo() {
+                const todoInput = document.getElementById('todoInput');
+                const todoText = todoInput
+                    .value
+                    .trim();
+                if (todoText === '') {
+                    alert('할 일을 입력해주세요.');
+                    return;
+                }
+                createTodoElement(todoText);
+                todoInput.value = '';
+                saveTodos();
+            }
+
+            function saveTodos() {
+                const todos = [];
+                document
+                    .querySelectorAll('#todoList li')
+                    .forEach(todoItem => {
+                        const text = todoItem
+                            .querySelector('span')
+                            .textContent;
+                        const completed = todoItem
+                            .classList
+                            .contains('completed');
+                        todos.push({text, completed});
+                    });
+                localStorage.setItem('todos', JSON.stringify(todos));
+            }
+
+            function loadTodos() {
+                const todos = JSON.parse(localStorage.getItem('todos') || '[]');
+                todos.forEach(todo => {
+                    createTodoElement(todo.text, todo.completed);
+                });
+            }
+        </script>
+    </body>
+</html>

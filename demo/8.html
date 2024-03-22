@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>예제 8</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                padding: 20px;
+            }
+
+            .container {
+                max-width: 400px;
+                margin: auto;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            .form-control {
+                width: 100%;
+                padding: 8px;
+                margin-top: 5px;
+                box-sizing: border-box;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            .strength-message {
+                text-align: center;
+                margin-top: 10px;
+                padding: 5px;
+                border-radius: 4px;
+            }
+
+            .strength-description {
+                font-weight: bold;
+                text-align: center;
+                margin-top: 4px;
+                padding: 5px;
+                border-radius: 4px;
+            }
+
+            .weak {
+                color: #ff4757;
+            }
+
+            .medium {
+                color: #ffa502;
+            }
+
+            .strong {
+                color: #2e5dd5;
+            }
+
+            .very-strong {
+                color: #2ed573;
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="./markdown.js"></script>
+    </head>
+
+    <body>
+        <article class="markdown-body">
+# 비밀번호 강도 검증 기능 구현
+
+사용자가 입력한 비밀번호의 안전성을 실시간으로 검증하고, 그 결과를 피드백으로 제공하는 기능을 구현했습니다. 사용자는 비밀번호 강도에 따라 적절한 메시지와 색상으로 된 설명을 받게 됩니다.
+
+## 구현 세부사항
+
+### HTML 구조
+- 폼 컨트롤(`.form-control`)을 포함한 폼 그룹(`.form-group`)과, 비밀번호 강도 메시지를 표시하는 `.strength-message` 및 `.strength-description`으로 구성됩니다.
+
+### JavaScript 동작
+- `#password` 필드에 입력이 있을 때마다 비밀번호 강도를 검증합니다.
+- 검증 로직은 길이, 문자의 다양성, 반복되는 문자의 사용, 연속된 문자의 사용을 평가합니다.
+- 검증 결과에 따라 적절한 메시지와 스타일 클래스(`weak`, `medium`, `strong`, `very-strong`)를 `.strength-message`와 `.strength-description`에 적용합니다.
+        </article>
+        <div class="container">
+            <div class="form-group">
+                <label for="old-password">Old Password:</label>
+                <input
+                    type="text"
+                    id="old-password"
+                    class="form-control"
+                    value="oldPassword@!#">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" class="form-control">
+            </div>
+            <div id="password-strength-message" class="strength-message"></div>
+            <div id="password-strength-description" class="strength-description"></div>
+        </div>
+    </body>
+    <script>
+        $(document).ready(function () {
+            var PasswordStrength = {
+                _message: "",
+                _lv: 0,
+                strengthHash: {
+                    0: "",
+                    1: "사용불가 (안전성 강도 매우 약함)",
+                    2: "사용불가 (안전성 강도 약함)",
+                    3: "사용가능한 비밀번호입니다. (안전성 강도 보통)",
+                    4: "사용가능한 비밀번호입니다. (안전성 강도 강함)",
+                    5: "사용가능한 비밀번호입니다. (안전성 강도 매우 강함)"
+                },
+                messages: {
+                    "base": "8~16자리 영문 대소문자, 숫자, 특수문자 중 3가지 이상 조합으로 만들어주세요.",
+                    "equalold": "현재 사용중인 비밀번호는 사용할 수 없습니다.",
+                    "repeat": "3자리 이상 반복되는 영문, 숫자, 특수문자는 비밀번호로 사용할 수 없습니다.",
+                    "consecutive": "3자리 이상 연속되는 영문, 숫자, 특수문자는 비밀번호로 사용할 수 없습니다.",
+                    "blank": "비밀번호를 입력해 주십시오.",
+                    "pass": ""
+                },
+                verify: function (passwd, old) {
+                    var len = passwd.length,
+                        score = 0;
+                    if (/^\s*$/.test(passwd)) {
+                        this._message = this.messages.blank;
+                        this._lv = 0;
+                        return false;
+                    }
+                    if (old && old === passwd) {
+                        this._message = this.messages.equalold;
+                        this._lv = 1;
+                        return false;
+                    }
+                    // 동일 문자 및 연속된 문자 확인
+                    var sameword = 0,
+                        step = 0,
+                        rStep = 0;
+                    for (var i = 0; i < len - 1; i++) {
+                        var word1 = passwd.substr(i, 1);
+                        var word2 = passwd.substr(i + 1, 1);
+                        if (word1 === word2) 
+                            sameword++;
+                        else 
+                            sameword = 0;
+                        if (sameword >= 2) {
+                            this._message = this.messages.repeat;
+                            this._lv = 1;
+                            return false;
+                        }
+
+                        if (word1.charCodeAt(0) === word2.charCodeAt(0) - 1) 
+                            step++;
+                        else 
+                            step = 0;
+                        if (word1.charCodeAt(0) === word2.charCodeAt(0) + 1) 
+                            rStep++;
+                        else 
+                            rStep = 0;
+                        if (step >= 2 || rStep >= 2) {
+                            this._message = this.messages.consecutive;
+                            this._lv = 1;
+                            return false;
+                        }
+                    }
+
+                    score++; // 기본 점수
+                    if (len < 8 || len > 16) {
+                        this._message = this.messages.base;
+                        this._lv = 1;
+                        return false;
+                    }
+                    score++; // 길이 점수
+
+                    var nComplexity = 0;
+                    if (passwd.match(/[A-Z]/)) 
+                        nComplexity++;
+                    if (passwd.match(/[a-z]/)) 
+                        nComplexity++;
+                    if (passwd.match(/[0-9]/)) 
+                        nComplexity++;
+                    if (passwd.match(/[^a-zA-Z0-9]/)) 
+                        nComplexity++;
+                    if (nComplexity < 3) {
+                        this._message = this.messages.base;
+                        this._lv = 2;
+                        return false;
+                    }
+
+                    score++; // 복잡도 점수
+                    if (len > 10 && nComplexity >= 3) 
+                        score++;
+                    if (len > 12 && nComplexity >= 3) 
+                        score++;
+                    this._message = this.messages.pass;
+                    this._lv = score;
+                    return true;
+                },
+                getMessage: function () {
+                    return this._message;
+                },
+                getStrength: function () {
+                    return this.strengthHash[this._lv];
+                }
+            };
+
+            $('#password').on('input', function () {
+                var password = $(this).val();
+                var oldPassword = $('#old-password').val();
+                var result = PasswordStrength.verify(password, oldPassword);
+                var strength_message = PasswordStrength.getMessage();
+                var strength_description = PasswordStrength.getStrength();
+                console.log(
+                    result,
+                    PasswordStrength._lv,
+                    strength_message,
+                    strength_description
+                );
+
+                $('#password-strength-message')
+                    .text(strength_message)
+                    .removeClass('weak medium strong very-strong');
+                $('#password-strength-description')
+                    .text(strength_description)
+                    .removeClass('weak medium strong very-strong');
+
+                var strength_class = function () {
+                    switch (PasswordStrength._lv) {
+                        case 3:
+                            return 'medium';
+                        case 4:
+                            return 'strong';
+                        case 5:
+                            return 'very-strong';
+                        default:
+                            return 'weak';
+                    }
+                }
+                if (result) {
+                    // 검증 성공
+                    $('#password-strength-message').addClass(strength_class);
+                    $('#password-strength-description').addClass(strength_class);
+                } else {
+                    // 검증 실패
+                    $('#password-strength-message').addClass('weak');
+                    $('#password-strength-description').addClass('weak');
+                }
+            });
+        });
+    </script>
+</html>
