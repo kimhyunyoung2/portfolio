@@ -3044,3 +3044,15 @@ nav .nav_btn {
   opacity: 1;
   transform: translateY(0);
 }
+.demo_header {
+  display: flex;
+  align-items: center;
+  padding-top: 13.5vw;    
+}
+.demo_header p{
+  font-size: 36px;
+  letter-spacing: -1px;
+  font-weight: lighter;
+  line-height: 150%;
+  width: 100%;
+}
