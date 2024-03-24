@@ -54,15 +54,17 @@
                 text-decoration: none;
                 cursor: pointer;
             }
+            
         </style>
     </head>
+    <link href="./demos.css" rel="stylesheet">
+    <script src="./nav.js"></script>
     <script src="./markdown.js"></script>
     <body>
-       
         <article class="markdown-body">
 # 모달 구현
 
-개발한 이 모달 예제는 HTML, CSS, 그리고 JavaScript를 활용해 사용자에게 정보를 제공하거나 추가 입력을 받을 수 있는 모달(dialog)을 구현하는 방법을 보여줍니다.
+HTML, CSS, 그리고 JavaScript를 활용해 사용자에게 정보를 제공하거나 추가 입력을 받을 수 있는 모달(dialog)을 구현하였습니다.
 
 ## 구현 세부사항
 
@@ -73,7 +75,7 @@
 - `openModalBtn`을 클릭하면 모달이 나타나며, `close-btn`, 모달 외부 클릭, 또는 `ESC` 키 입력 시 모달이 닫힙니다.
 - 모달의 접근성을 고려해 `aria-hidden` 속성을 활용하고 `ESC` 키로 모달을 닫을 수 있습니다.
         </article>
-        <button id="openModalBtn">모달 열기</button>
+        <button type="button" id="openModalBtn">모달 열기</button>
         <div id="modal" class="modal">
             <div class="modal-content">
                 <span class="close-btn">&times;</span>
@@ -93,12 +95,12 @@
             const close = document.querySelector('.close-btn');
             const modalContent = document.querySelector('.modal-content');
 
-            // 모달 열기 이벤트
-            btn.addEventListener('click', () => {
+            // 모달 열기 함수
+            function openModal() {
                 modal.style.display = 'block';
                 modal.setAttribute('aria-hidden', 'false'); // ARIA 접근성 개선
                 document.body.style.overflow = 'hidden'; // 모달이 열렸을 때 배경 스크롤 방지
-            });
+            }
 
             // 모달 닫기 함수
             function closeModal() {
@@ -106,6 +108,9 @@
                 modal.setAttribute('aria-hidden', 'true'); // ARIA 접근성 개선
                 document.body.style.overflow = 'auto'; // 모달이 닫혔을 때 배경 스크롤 가능
             }
+
+            // 모달 열기 이벤트
+            btn.addEventListener('click', openModal);
 
             // 모달 닫기 이벤트
             close.addEventListener('click', closeModal);

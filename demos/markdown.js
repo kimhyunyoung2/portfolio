@@ -17,8 +17,7 @@ function loadShowdown(callback) {
     };
     document.head.appendChild(jsMarkdown);
 }
-  
-// 로드된 후 실행할 함수
+
 function initializeMarkdown() {
     let converter = new showdown.Converter();
     let markdownContent = document.querySelectorAll('.markdown-body');
@@ -29,6 +28,6 @@ function initializeMarkdown() {
     });
   }
   
-  document.addEventListener('DOMContentLoaded', function() {
-    loadShowdown(initializeMarkdown);
-  });
+document.addEventListener('DOMContentLoaded', function() {
+  loadShowdown(initializeMarkdown);
+});

@@ -1,0 +1,27 @@
+html {overflow-y: scroll;}
+.frame__demos,
+.frame__demos * {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+}
+.frame__demos {
+    position: fixed;
+    right: 30px;
+    bottom:30px;
+    border: 1px solid #888;
+    padding: 10px;
+}
+.frame__demos a {display:inline-block; text-decoration: none; border-radius: 12px; width: 24px; height: 24px; 
+    line-height: 1.5; text-align: center; 
+    border: 1px solid #888;
+    background-color: #fff;
+    color: #000;
+    }
+.frame__demos a.on {
+    color: #fff; 
+    background-color: #000;
+}
+
+
+

@@ -11,7 +11,7 @@ body {
   width: 100%;
   /* overflow-x: hidden; */
   color: #131417;
-  cursor: none;
+  cursor:auto;
 }
 
 a {
@@ -3044,6 +3044,9 @@ nav .nav_btn {
   opacity: 1;
   transform: translateY(0);
 }
+.demos {
+  padding-bottom: 100px;
+}
 .demo_header {
   display: flex;
   align-items: center;
@@ -3055,4 +3058,62 @@ nav .nav_btn {
   font-weight: lighter;
   line-height: 150%;
   width: 100%;
+}
+.demos_wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 20px;
+  padding-top: 13.5vw;
+}
+.demos_wrap .demos_box{
+  width: 30%;
+  margin-top: 50px;
+}
+.demos_wrap .demos_box:nth-child(1) {
+  margin-top: 0;
+}
+.demos_wrap .demos_box:nth-child(2) {
+  margin-top: 0;
+}
+.demos_wrap .demos_box:nth-child(3) {
+  margin-top: 0;
+}
+.demos_wrap .demos_box p{
+  margin-top: 15px;
+}
+@media only screen and (max-width: 1200px) {
+  .demos_wrap .demos_box {
+    width: 48%;
+    margin-top: 40px;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .demo_header p{
+    font-size: 5.5vw !important;
+  }
+  .demos_wrap .demos_box {
+    width: 100%;
+    margin-top: 30px;
+  }
+}
+.demos_wrap .demos_box .demo_link .img{
+  width: 100%;
+  height: 250px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: bold;
+  box-sizing: border-box;
+  color: #121212;
+  background: #fff;
+}
+.demos_wrap .demos_box:hover .demo_link .img{
+  border: 2px solid #000;
+  
+}
+.demos_wrap .demos_box .demo_link .dec{
+  color: #121212;
 }

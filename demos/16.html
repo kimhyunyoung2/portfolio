@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>예제 16</title>
+        <style>
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 1;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgba(0, 0, 0, 0.4);
+            }
+
+            .modal-content {
+                background-color: #fefefe;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 500px;
+                height: 500px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                animation-name: modalOpen;
+                animation-duration: 0.4s;
+            }
+
+            @keyframes modalOpen {
+                from {
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1;
+                }
+            }
+
+            .close-top-btn {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close-top-btn:focus,
+            .close-top-btn:hover {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            
+        </style>
+    </head>
+    <link href="./demos.css" rel="stylesheet">
+    <script src="./nav.js"></script>
+    <script src="./markdown.js"></script>
+    <body>
+        <article class="markdown-body">
+# 로컬 스토리지를 이용한 모달 표시 제어
+
+로컬 스토리지를 이용해 "일주일 동안 보지 않기" 기능을 구현하여 사용자 경험을 개선했습니다.
+
+## 구현 세부사항
+
+### JavaScript 동작
+- **모달 초기화:** `resetModalBtn` 버튼 클릭 시 로컬 스토리지에서 "일주일 동안 보지 않기" 설정을 초기화하는 함수입니다.
+
+### 로컬 스토리지 사용
+- 사용자가 "일주일 동안 보지 않기"를 선택하면 현재 시간으로부터 7일 후까지 모달을 다시 보지 않도록 설정값을 로컬 스토리지에 저장합니다. 페이지 로드 시 로컬 스토리지를 체크하여 해당 기간 동안은 모달을 표시하지 않습니다.
+        </article>
+        <button type="button" id="openModalBtn">모달 열기</button>
+        <button type="button" id="resetModalBtn">초기화</button>
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn close-top-btn">&times;</span>
+                <p>내용</p>
+                <label>
+                    <input type="checkbox" id="dontShowAgain"> 일주일 동안 보지 않기
+                </label>
+                <button class="close-btn close-bottom-btn" id="closeModal">닫기</button>
+            </div>
+        </div>
+    </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('modal');
+            const openBtn = document.getElementById('openModalBtn');
+            const closeBtns = document.querySelectorAll('.close-btn');
+            const resetBtn = document.getElementById('resetModalBtn');
+            const modalContent = document.querySelector('.modal-content');
+
+            // 모달 열기 함수
+            function openModal() {
+                modal.style.display = 'block';
+                modal.setAttribute('aria-hidden', 'false'); // ARIA 접근성 개선
+                document.body.style.overflow = 'hidden'; // 모달이 열렸을 때 배경 스크롤 방지
+            }
+
+            // 모달 닫기 함수
+            function closeModal() {
+                modal.style.display = 'none';
+                modal.setAttribute('aria-hidden', 'true'); // ARIA 접근성 개선
+                document.body.style.overflow = 'auto'; // 모달이 닫혔을 때 배경 스크롤 가능
+            }
+
+            // 모달 초기화 함수
+            function resetModal() {
+                localStorage.removeItem('hideModalUntil');
+            }
+
+            function checkHideModel() {
+                let hideModalUntil = localStorage.getItem('hideModalUntil');
+                let now = new Date();
+                if (hideModalUntil && now.getTime() < parseInt(hideModalUntil)) {
+                    return true; // 보이지 않음
+                }
+                else {
+                    return false; // 보임
+                }
+            }
+
+            // 모달 열기 이벤트
+            openBtn.addEventListener('click', openModal);
+
+            // 모달 닫기 이벤트
+            closeBtns.forEach(closeBtn => {
+                closeBtn.addEventListener('click', function(event) {
+                    if (event.target.classList.contains('close-bottom-btn')) {
+                        // '일주일 동안 보지 않기' 체크박스 상태 확인
+                        const dontShowAgain = document.getElementById('dontShowAgain').checked;
+                        if (dontShowAgain) {
+                            let now = new Date();
+                            // 현재 시간에 7일을 더함
+                            const hideUntil = new Date(now.getTime() + (7 * 24 * 60 * 60 * 1000)).getTime();
+                            localStorage.setItem('hideModalUntil', hideUntil.toString());
+            
+                        }
+                    }
+                    // 모달 닫기
+                    closeModal();
+                });
+            });
+
+            // 모달 초기화 이벤트
+            resetBtn.addEventListener('click', function() {
+                resetModal();
+                alert("'일주일 동안 보지 않기' 설정 값이 초기화 되었습니다.");
+            });
+            
+            // 모달 밖 클릭 시 모달 닫기 처리
+            window.addEventListener('click', (event) => {
+                if (event.target == modal) {
+                    closeModal();
+                }
+            });
+
+            // 키보드 이벤트 처리 - Esc 키
+            document.addEventListener('keydown', (event) => {
+                if (event.key === "Escape") {
+                    closeModal();
+                }
+            });
+
+            // 모달 컨텐츠 내부 클릭 시 이벤트 중복 방지
+            modalContent.addEventListener('click', (event) => {
+                event.stopPropagation();
+            });
+
+            // ARIA 속성 초기화
+            modal.setAttribute('aria-hidden', 'true');
+            openBtn.setAttribute('aria-expanded', 'false');
+
+            if (!checkHideModel()) {
+                openModal();
+            }
+        });
+    </script>
+    
+
+</html>

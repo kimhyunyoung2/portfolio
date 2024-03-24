@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>예제 15</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .parallax {
+            background-image: url('https://images.unsplash.com/photo-1682687220363-35e4621ed990?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); 
+            height: 100%;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .content {
+            height: 2000px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+        }
+
+        .content h1 {
+            text-align: center;
+        }
+
+        .content p {
+            text-align: justify;
+        }
+    </style>
+    <script src="./nav.js"></script>
+    <script src="./markdown.js"></script>
+    <link href="./demos.css" rel="stylesheet">
+</head>
+<body>
+    <article class="markdown-body">
+# 패럴랙스 스크롤링 구현
+
+패럴랙스 스크롤링 효과를 구현했습니다. 사용자가 스크롤할 때 배경 이미지가 고정되어 있으며, 내용 텍스트만 움직이는 효과를 보여줍니다.
+
+## HTML 구조
+
+HTML 문서는 기본적으로 두 부분으로 구성됩니다: `.parallax`와 `.content`.
+
+- `.parallax`: 패럴랙스 배경을 위한 `div`입니다. `background-image`를 통해 배경 이미지를 설정하고, `background-attachment: fixed;` 속성을 사용하여 스크롤 시에 배경이 고정되도록 합니다.
+- `.content`: 실제 내용을 담고 있는 `div`입니다. 이 부분에는 제목과 설명이 포함되어 있으며, 사용자가 스크롤할 수 있도록 충분한 높이를 가지고 있습니다.
+
+## CSS 스타일
+
+- `.parallax`에 적용된 `background-attachment: fixed;` 속성을 주었고, 배경 이미지는 스크롤과 독립적으로 고정됩니다.
+- `.content`는 사용자가 실제로 인터랙션할 내용을 담고 있으며, `height: 2000px;`로 설정하여 스크롤이 발생하도록 합니다. 배경색은 `rgba(255, 255, 255, 0.8);`로 설정하여 배경 이미지가 비치도록 합니다.
+
+    </article>
+    <div class="content">
+        <p>배경과 내용이 다른 속도로 움직입니다. 스크롤을 내려서 효과를 확인해보세요.</p>
+    </div>
+    <div class="parallax"></div>
+</body>
+</html>
