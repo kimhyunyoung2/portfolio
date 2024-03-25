@@ -3104,16 +3104,16 @@ nav .nav_btn {
   }
   .demos_wrap .demos_box {
     width: 100%;
-    margin-top: 30px;
+    margin-top: 30px !important;
   }
   .demos_wrap .demos_box:nth-child(1) {
     margin-top: 20px;
   }
   .demos_wrap .demos_box:nth-child(2) {
-    margin-top: 30px;
+    margin-top: 30px !important;
   }
   .demos_wrap .demos_box:nth-child(3) {
-    margin-top: 30px;
+    margin-top: 30px !important;
   }
 }
 .demos_wrap .demos_box .demo_link .img{
