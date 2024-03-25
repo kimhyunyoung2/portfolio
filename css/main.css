@@ -3094,6 +3094,9 @@ nav .nav_btn {
     width: 48%;
     margin-top: 40px;
   }
+  .demos_wrap .demos_box:nth-child(3) {
+    margin-top: 40px;
+  }
 }
 @media only screen and (max-width: 800px) {
   .demo_header p{
@@ -3101,6 +3104,15 @@ nav .nav_btn {
   }
   .demos_wrap .demos_box {
     width: 100%;
+    margin-top: 30px;
+  }
+  .demos_wrap .demos_box:nth-child(1) {
+    margin-top: 20px;
+  }
+  .demos_wrap .demos_box:nth-child(2) {
+    margin-top: 30px;
+  }
+  .demos_wrap .demos_box:nth-child(3) {
     margin-top: 30px;
   }
 }
