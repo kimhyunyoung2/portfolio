@@ -5,7 +5,7 @@ console.log(`
   |  __  ||  __|  | |     | |    | |  | |
   | |  | || |____ | |____ | |____| |__| |
   |_|  |_||______||______||______|\\____/
-
+  김현영의 포트폴리오에 오신걸 환영합니다!
 `);
 
 
@@ -112,29 +112,29 @@ tl3.from("#loader .heading h1", {
   .to("#loader .heading h1", {
     y: "-105%",
     duration: 1,
-    delay: .5,
+    delay: -.4,
     ease: Circ.easeInOut
   })
 
   .to("#loader", {
     y: "-110%",
     duration: 1,
-    delay: -.5,
+    delay: -1,
     ease: Circ.easeInOut
   })
 
   .to("#loader_overlay", {
     height: "100%",
     top: 0,
-    duration: 1,
-    delay: -1.2,
+    duration: .05,
+    delay: -5,
     ease: Circ.easeInOut
   })
 
   .to("#loader_overlay", {
     height: "0%",
-    duration: 1,
-    delay: -.5,
+    duration: .5 ,
+    delay: -.25,
     ease: Circ.easeInOut,
   });
 
