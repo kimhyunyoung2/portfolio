@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>예제 19</title>
+    <style>
+        .review-container, .submit-review {
+            margin-top: 20px;
+        }
+        .review-item {
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+        .review-rating, .average-rating {
+            font-weight: bold;
+        }
+        .review-text {
+            margin-top: 5px;
+        }
+        .average-rating {
+            font-size: 20px;
+        }
+        input[type=number] {
+            width : 100px;
+        }
+        input[type=text] {
+            width : 600px;
+        }
+    </style>
+</head>
+<link href="./demos.css" rel="stylesheet">
+<script src="./nav.js"></script>
+<script src="./markdown.js"></script>
+<body>
+    <article class="markdown-body">
+# 고객 리뷰 및 평점
+
+고객 리뷰와 평점 기능을 구현했습니다.
+
+## JavaScript 동작
+
+### 변수 및 함수
+
+- `loadReviews`: 로컬 스토리지에서 리뷰 데이터를 불러오는 함수입니다. 사용자가 리뷰를 작성하거나 수정할 때 호출됩니다.
+- `displayReviews`: 현재 저장된 리뷰 데이터를 바탕으로 리뷰 목록을 화면에 표시하는 함수입니다.
+- `submitReview`: 사용자가 새 리뷰를 작성하고 제출할 때 호출되는 함수입니다. 입력된 리뷰를 저장하고 화면에 업데이트합니다.
+- `saveReviews`: 변경된 리뷰 데이터를 로컬 스토리지에 저장하는 함수입니다.
+
+### 기능
+
+- 리뷰 작성 폼에서 평점과 리뷰 내용을 입력하고 제출할 수 있습니다.
+- 입력된 리뷰는 로컬 스토리지에 저장되며, 페이지 로드 시 저장된 리뷰 데이터가 화면에 표시됩니다.
+- 리뷰 목록은 평점과 리뷰 내용으로 구성되어 있으며, 평균 평점이 계산되어 화면에 표시됩니다.
+    </article>
+    <h2>고객 리뷰 및 평점</h2>
+    <div class="average-rating"></div>
+    <div class="review-container"></div>
+
+    <div class="submit-review">
+        <h3>리뷰 작성</h3>
+        <input type="number" id="rating" placeholder="평점 (1-5)" min="1" max="5">
+        <input type="text" id="reviewText" placeholder="리뷰 내용">
+        <button onclick="submitReview()">리뷰 제출</button>
+    </div>
+    <script>
+        // 로컬 스토리지에서 리뷰 데이터 불러오기
+        const loadReviews = () => {
+            const reviews = localStorage.getItem('reviews');
+            return reviews ? JSON.parse(reviews) : [];
+        };
+
+        let reviews = loadReviews(); // 초기 리뷰 데이터 로드
+
+        function displayReviews() {
+            const container = document.querySelector('.review-container');
+            container.innerHTML = ''; // 이전 리뷰를 지우고 새로 시작
+            let totalRating = 0;
+
+            reviews.forEach(review => {
+                const reviewEl = document.createElement('div');
+                reviewEl.classList.add('review-item');
+                reviewEl.innerHTML = `
+                    <div class="review-rating">평점: ${review.rating}</div>
+                    <div class="review-text">${review.text}</div>
+                `;
+                container.appendChild(reviewEl);
+                totalRating += review.rating;
+            });
+
+            const averageRating = reviews.length ? (totalRating / reviews.length).toFixed(1) : '평가 없음';
+            document.querySelector('.average-rating').textContent = `평균 평점: ${averageRating}`;
+        }
+
+        function submitReview() {
+            const ratingInput = document.getElementById('rating');
+            const reviewTextInput = document.getElementById('reviewText');
+            const rating = parseInt(ratingInput.value);
+
+            // 사용자가 평점을 입력하지 않거나 1부터 5까지의 범위를 벗어나는 경우
+            if (!rating || rating < 1 || rating > 5) {
+                alert("평점을 1점부터 5점 사이로 입력해주세요.");
+                return;
+            }
+
+            const newReview = { rating, text: reviewTextInput.value };
+            reviews.push(newReview);
+            saveReviews(reviews); // 리뷰를 로컬 스토리지에 저장
+            displayReviews(); // 리뷰 목록을 다시 표시
+
+            ratingInput.value = ''; // 입력 필드 초기화
+            reviewTextInput.value = '';
+        }
+
+        function saveReviews(reviews) {
+            localStorage.setItem('reviews', JSON.stringify(reviews));
+        }
+
+        displayReviews(); // 페이지 로드 시 리뷰 표시
+
+    </script>
+</body>
+</html>
