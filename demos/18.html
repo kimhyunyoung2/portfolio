@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>예제 18</title>
+    <style>
+        .filter-sort {
+            margin-bottom: 20px;
+        }
+
+        #productList {
+            list-style: none;
+            padding: 0;
+        }
+
+        #productList li {
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+    </style>
+</head>
+<link href="./demos.css" rel="stylesheet">
+<script src="./nav.js"></script>
+<script src="./markdown.js"></script>
+<body>
+    <article class="markdown-body">
+# 상품 필터링 및 정렬 기능
+
+사용자가 선호하는 카테고리별로 상품을 필터링하고, 가격 순으로 정렬할 수 있는 웹 페이지 기능을 구현했습니다. 사용자는 쉽게 원하는 상품을 찾고, 상품 목록을 사용자가 정렬할 수 있습니다.
+
+## 구현 세부사항
+
+### JavaScript 동작
+
+#### 변수 및 함수
+
+- `products`: 상품 정보를 담고 있는 배열입니다. 각 상품은 `id`, `name`, `category`, `price` 속성을 가집니다.
+- `filterProducts`: 선택된 카테고리와 정렬 순서에 따라 상품을 필터링하고 정렬하는 함수입니다.
+- `addCommasToNumber`: 숫자에 콤마를 추가하여 가격을 표시하기 위한 함수입니다.
+- `displayProducts`: 필터링 및 정렬된 상품 목록을 화면에 표시하는 함수입니다.
+
+#### 이벤트 리스너
+
+- `filterCategory`와 `sortOrder`에 이벤트 리스너를 추가하여, 사용자가 옵션을 변경할 때마다 상품 목록이 업데이트됩니다.
+    </article>
+    <div class="filter-sort">
+        <select id="filterCategory">
+          <option value="all">모든 카테고리</option>
+          <option value="outer">상의</option>
+          <option value="pant">하의</option>
+          <option value="inner">이너</option>
+        </select>
+      
+        <select id="sortOrder">
+          <option value="default">기본 정렬</option>
+          <option value="priceLowHigh">가격 낮은순</option>
+          <option value="priceHighLow">가격 높은순</option>
+        </select>
+    </div>
+    <ul id="productList">
+
+    </ul>
+    <script>
+        const products = [
+            { id: 1, name: '아우터1', category: 'outer', price: 500000 },
+            { id: 2, name: '아우터2', category: 'outer', price: 1200000 },
+            { id: 3, name: '팬츠1', category: 'pant', price: 15000 },
+            { id: 4, name: '티셔츠1', category: 'inner', price: 30000 },
+            { id: 5, name: '아우터3', category: 'outer', price: 100000 },
+            { id: 6, name: '팬츠2', category: 'pant', price: 1100000 },
+            { id: 7, name: '팬츠3', category: 'pant', price: 12000 },
+            { id: 8, name: '티셔츠2', category: 'inner', price: 230000 },
+        ];
+
+        function filterProducts() {
+            const category = document.getElementById('filterCategory').value;
+            const sortOrder = document.getElementById('sortOrder').value;
+
+            let filteredProducts = products.filter(product => category === 'all' || product.category === category);
+
+            if (sortOrder === 'priceLowHigh') {
+                filteredProducts.sort((a, b) => a.price - b.price);
+            } else if (sortOrder === 'priceHighLow') {
+                filteredProducts.sort((a, b) => b.price - a.price);
+            }
+
+            displayProducts(filteredProducts);
+           
+        }
+        function addCommasToNumber(number) {
+            return number
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        function displayProducts(products) {
+            const productList = document.getElementById('productList');
+            productList.innerHTML = '';
+
+            products.forEach(product => {
+                const li = document.createElement('li');
+                li.textContent = `${product.name} - ${addCommasToNumber(product.price)}원`;
+                productList.appendChild(li);
+            });
+        }
+
+        // 이벤트 리스너 추가
+        document.getElementById('filterCategory').addEventListener('change', filterProducts);
+        document.getElementById('sortOrder').addEventListener('change', filterProducts);
+
+        // 초기 상품 목록 표시
+        filterProducts();
+
+    </script>
+</body>
+</html>
