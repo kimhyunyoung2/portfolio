@@ -1,4 +1,7 @@
 html {overflow-y: scroll;}
+body {
+    margin-bottom: 10rem;
+}
 .frame__demos,
 .frame__demos * {
     box-sizing: border-box;
