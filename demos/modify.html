@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>예제 23</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        #portfolioPieChart {
+            max-width: 500px;
+            width: 500px;
+            max-height: 500px;
+            aspect-ratio: 1 / 1;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<link href="./demos.css" rel="stylesheet">
+<script src="./nav.js"></script>
+<script src="./markdown.js"></script>
+<body>
+    <article class="markdown-body">
+    </article>
+    <div class="wrap">
+        <canvas id="portfolioPieChart" width="500" height="500"></canvas>
+    </div>
+    <script>
+    const percentagePlugin = {
+        id: 'percentage',
+        afterDatasetsDraw: (chart) => {
+            var ctx = chart.ctx;
+            chart.data.datasets.forEach((dataset, i) => {
+                var meta = chart.getDatasetMeta(i);
+                if (!meta.hidden) {
+                    meta.data.forEach((element, index) => {
+                        // 데이터 값에 해당하는 백분율 계산
+                        const dataTotal = dataset.data.reduce((total, value) => total + value, 0);
+                        const value = dataset.data[index];
+                        const percentage = ((value / dataTotal) * 100).toFixed(2) + "%";
+
+                        // 텍스트 스타일 설정
+                        ctx.fillStyle = '#000';
+                        let fontSize = 20;
+                        let fontStyle = 'normal';
+                        let fontFamily = 'Helvetica Neue';
+                        ctx.font = fontStyle + ' ' + fontSize + 'px' + ' ' + fontFamily;
+                        ctx.textBaseline = 'middle';
+                        ctx.textAlign = 'center';
+
+                        // 백분율 텍스트 위치 계산 및 표시
+                        const position = element.tooltipPosition();
+                        ctx.fillText(percentage, position.x, position.y);
+                    });
+                }
+            });
+        }
+    };
+
+    // 원형 차트 생성
+    var ctx = document.getElementById('portfolioPieChart').getContext('2d');
+    var portfolioPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['로봇주', '기술주', '에너지주', '반도체주'],
+            datasets: [{
+                label: '주식 보유 비율',
+                data: [40, 20, 15, 25],
+                backgroundColor: [
+                    'rgba(220, 199, 132, 0.6)',
+                    'rgba(54, 62, 235, 0.6)',
+                    'rgba(255, 106, 86, 0.6)',
+                    'rgba(75, 292, 192, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(220, 199, 132, 1)',
+                    'rgba(54, 62, 235, 1)',
+                    'rgba(255, 106, 86, 1)',
+                    'rgba(75, 292, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: {
+                legend: {
+                    onClick: (e) => e.stopPropagation(),
+                    position: 'top',
+                    font: {
+                        size: 24
+                    }
+                },
+                title: {
+                    display: true,
+                    text: '주식 보유 비율',
+                    font: {
+                        size: 24,
+                    },
+                    color: '#000'
+                }
+            }
+        },
+        plugins: [percentagePlugin] // 백분율 플러그인 등록
+    });
+    </script>
+</body>
+</html>

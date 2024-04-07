@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>예제 22</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+    </style>
+</head>
+<link href="./demos.css" rel="stylesheet">
+<script src="./nav.js"></script>
+<script src="./markdown.js"></script>
+<body class="bg-gray-100">
+    <article class="markdown-body">
+# 주식 가격 선형 차트
+
+Chart.js를 활용하여 주식 가격의 변동을 선형 차트로 구현했습니다.
+
+### 차트 구현
+- 차트는 `var ctx = document.getElementById('stockPriceChart').getContext('2d');`를 사용하여 초기화하였습니다.
+- 차트 데이터는 월별로 구분되며, 각 월의 주식 가격을 나타냅니다.
+- 차트 옵션에는 툴팁 활성화, 호버 모드, 애니메이션 설정, 축 설정 등이 포함 되었습니다.
+- 가격은 `Intl.NumberFormat`을 사용하여 한국 원화로 구현했습니다.
+
+### 스타일과 인터랙티브 요소
+- 차트는 사용자와의 인터랙션을 위해 툴팁과 호버 기능을 추가하였습니다.
+- 애니메이션 효과는 사용자 경험을 향상시키기 위해 추가하였습니다.
+    </article>
+    <canvas id="stockPriceChart" width="200" height="200"></canvas>
+    <script>
+        var ctx = document.getElementById('stockPriceChart').getContext('2d');
+        var stockPriceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['4/1', '4/2', '4/3', '4/4', '4/5', '4/8', '4/9', '4/10', '4/11', '4/12', '4/15', '4/16'],
+                datasets: [{
+                    label: '종가',
+                    data: [12000, 1000, 30000, 50000, 20000, 30000, 45000, 27000, 30000, 40000, 50000, 60000],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    tooltip: {
+                        enabled: true, // 툴팁 활성화
+                        mode: 'index', // 호버된 요소와 같은 인덱스의 모든 요소를 대상으로 툴팁 표시
+                        intersect: false // 호버된 요소와 정확히 일치할 필요 없이 툴팁 표시
+                    }
+                },
+                hover: {
+                    mode: 'index',
+                    intersect: false
+                },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeInOutQuart'
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            font: {
+                                size: 16
+                            }
+                        },
+                        ticks: {
+                            callback: function(value, index, ticks) {
+                                return new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(value);
+                            },
+                            textRotation: 0
+                        },
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            font: {
+                                size: 16
+                            }
+                        }
+                    }
+                }
+            }
+        });   
+    </script>        
+</body>
+
+</html>
