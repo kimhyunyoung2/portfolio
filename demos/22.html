@@ -6,6 +6,25 @@
     <title>예제 22</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        #timeRangeButtons button {
+            margin-left: 10px;
+            padding: 5px 10px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            box-sizing: border-box;
+            width: 100px;
+            height: 40px;
+        }
+        
+        #timeRangeButtons button:hover {
+            background-color: #fff;
+            border: 1px solid #000;
+            color: #000;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <link href="./demos.css" rel="stylesheet">
@@ -19,24 +38,32 @@ Chart.js를 활용하여 주식 가격의 변동을 선형 차트로 구현했�
 
 ### 차트 구현
 - 차트는 `var ctx = document.getElementById('stockPriceChart').getContext('2d');`를 사용하여 초기화하였습니다.
-- 차트 데이터는 월별로 구분되며, 각 월의 주식 가격을 나타냅니다.
 - 차트 옵션에는 툴팁 활성화, 호버 모드, 애니메이션 설정, 축 설정 등이 포함 되었습니다.
 - 가격은 `Intl.NumberFormat`을 사용하여 한국 원화로 구현했습니다.
-
+- 1주일, 1개월, 3개월, 6개월, 1년 주기로 가상의 데이터를 추가하여 차트가 변경될 수 있도록 구현했습니다.
 ### 스타일과 인터랙티브 요소
 - 차트는 사용자와의 인터랙션을 위해 툴팁과 호버 기능을 추가하였습니다.
 - 애니메이션 효과는 사용자 경험을 향상시키기 위해 추가하였습니다.
     </article>
-    <canvas id="stockPriceChart" width="200" height="200"></canvas>
+    <div id="timeRangeButtons">
+        <button onclick="updateChart('1w')">1주일</button>
+        <button onclick="updateChart('1m')">1개월</button>
+        <button onclick="updateChart('3m')">3개월</button>
+        <button onclick="updateChart('6m')">6개월</button>
+        <button onclick="updateChart('1y')">1년</button>
+    </div>
+    <div id="stockPriceChartContainer">
+        <canvas id="stockPriceChart" width="200" height="200"></canvas>
+    </div>
     <script>
         var ctx = document.getElementById('stockPriceChart').getContext('2d');
         var stockPriceChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['4/1', '4/2', '4/3', '4/4', '4/5', '4/8', '4/9', '4/10', '4/11', '4/12', '4/15', '4/16'],
+                labels: ['월', '화', '수', '목', '금'],
                 datasets: [{
                     label: '종가',
-                    data: [12000, 1000, 30000, 50000, 20000, 30000, 45000, 27000, 30000, 40000, 50000, 60000],
+                    data: [60000, 61000, 60000, 59000, 61000],
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     borderColor: 'rgba(255, 99, 132, 1)',
                     borderWidth: 1
@@ -44,6 +71,9 @@ Chart.js를 활용하여 주식 가격의 변동을 선형 차트로 구현했�
             },
             options: {
                 plugins: {
+                    legend: {
+                        onClick: (e) => e.stopPropagation(),
+                    },
                     tooltip: {
                         enabled: true, // 툴팁 활성화
                         mode: 'index', // 호버된 요소와 같은 인덱스의 모든 요소를 대상으로 툴팁 표시
@@ -84,7 +114,31 @@ Chart.js를 활용하여 주식 가격의 변동을 선형 차트로 구현했�
                     }
                 }
             }
-        });   
+        });  
+        function updateChart(timeRange) {
+            var dataSets = {
+                '1w': [60000, 61000, 60000, 59000, 61000],
+                '1m': [50000, 52000, 51000, 53000, 54000, 55000, 56000, 57000, 58000, 59000, 60000, 61000],
+                '3m': [51000, 55000, 58000, 61000],
+                '6m': [55000, 61000],
+                '1y': [61000]
+            };
+
+            var labels = {
+                '1w': ['월', '화', '수', '목', '금'],
+                '1m': ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                '3m': ['3월', '6월', '9월', '12월'],
+                '6m': ['6월', '12월'],
+                '1y': ['2024년']
+            };
+
+            stockPriceChart.data.labels = labels[timeRange];
+            stockPriceChart.data.datasets.forEach((dataset) => {
+                dataset.data = dataSets[timeRange];
+            });
+
+            stockPriceChart.update();
+        } 
     </script>        
 </body>
 
