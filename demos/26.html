@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>예제 26</title>
+    <style>
+    </style>
+</head>
+<link href="./demos.css" rel="stylesheet">
+<script src="./nav.js"></script>
+<script src="./markdown.js"></script>
+<body>
+    <article class="markdown-body">
+# 음성 명령으로 배경색 변경하기
+
+`SpeechRecognition` API를 활용하여 사용자의 음성 명령을 인식하고, 인식된 명령어에 따라 웹 페이지의 배경색을 변경하는 기능을 구현했습니다.
+
+## 구현 사항
+
+- **음성 인식 시작 버튼**: 사용자 인터랙션을 위한 버튼을 제공하여, 클릭 시 음성 인식이 시작됩니다.
+- **명령어 기반의 반응**: 사용자가 "블루", "레드", "기본"이라고 말하면, 웹 페이지의 배경색이 해당 색상으로 변경됩니다.
+
+## JavaScript
+
+- **`SpeechRecognition` 설정**: 음성 인식 기능을 활성화하고, 'recognition.lang = 'ko-KR';' 사용자의 음성을 한국어로 인식하도록 설정합니다. 'recognition.interimResults = true;' 중간 인식 결과도 사용할 수 있게 설정합니다.
+- **음성 인식 이벤트 처리**: 사용자의 음성이 인식되면 발생하는 이벤트를 처리하는 리스너를 추가합니다. 인식된 텍스트에 따라 조건부로 웹 페이지의 배경색을 변경합니다.
+- **색상 변경 로직**: "블루" 명령어를 인식하면 배경색을 파란색으로, "레드"를 인식하면 배경색을 빨간색으로 변경하고, "기본"을 인식하면 원래대로 돌아옵니다.    
+    </article>
+    <button id="start">음성 인식</button>
+    <p>명령어: "블루", "레드", "기본"</p>
+
+    <script src="voice-command.js"></script>
+    <script>
+        // SpeechRecognition 인스턴스 생성
+        window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'ko-KR'; // 한국어 설정
+        recognition.interimResults = true; // 중간 결과도 반환받기
+
+        recognition.addEventListener('result', e => {
+            const transcript = Array.from(e.results)
+                .map(result => result[0])
+                .map(result => result.transcript)
+                .join('');
+
+            console.log(transcript);
+            if (transcript.includes('블루')) {
+                document.body.style.backgroundColor = 'blue';
+                document.body.style.color = 'white';
+            } else if (transcript.includes('레드')) {
+                document.body.style.backgroundColor = 'red';
+                document.body.style.color = 'white';
+            } else if (transcript.includes('기본')) {
+                document.body.style.backgroundColor = 'white';
+                document.body.style.color = 'black';
+            }
+        });
+
+        // 음성 인식 시작
+        document.getElementById('start').addEventListener('click', () => {
+            recognition.start();
+        });
+
+    </script>
+</body>
+</html>
