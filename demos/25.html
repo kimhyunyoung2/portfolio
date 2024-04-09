@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>예제 24</title>
+    <style>
+        #searchInput {
+            width: 700px;
+            box-sizing: border-box;
+        }
+        #searchResult {
+            position: absolute;
+            width: 700px;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            display: none;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+        .search-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .search-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<link href="./demos.css" rel="stylesheet">
+<script src="./nav.js"></script>
+<script src="./markdown.js"></script>
+<body>
+    <article class="markdown-body">
+# 실시간 검색 결과 보여주기
+
+사용자가 입력하는 텍스트에 따라 실시간으로 검색 결과를 필터링하고 보여주는 기능을 구현했습니다.
+
+## 구현 방법
+  - 디바운싱 함수를 사용해 이벤트 핸들러의 빈번한 호출을 최적화했습니다.
+  <!-- 웹 개발에서 이벤트 처리와 관련하여 성능을 최적화하는 데 유용 -->
+  <!-- 함수가 너무 자주 호출되는 것을 방지하고, 특정 시간 동안의 추가 호출을 무시하면서, 마지막 호출만을 실행하게 하는 것 -->
+  <!-- 사용자의 입력 처리, API 호출, 또는 화면 리사이징과 같이 반복적으로 발생할 수 있는 이벤트에 대해 매우 유용 -->
+  - 검색 입력란에 입력이 있을 때마다 이벤트 리스너가 트리거됩니다.
+  - 입력된 텍스트와 일치하는 항목을 필터링하여 검색 결과 목록에 동적으로 추가합니다.
+  - 사과, 오렌지, 포도 가상 데이터를 넣었습니다.
+  - 검색 결과가 없을 경우, 사용자에게 안내 메시지를 표시합니다.
+  - 사용자가 검색 결과 중 하나를 클릭하면, 해당 항목의 텍스트가 검색 입력란에 채워지고, 검색 결과 목록이 사라집니다.
+    </article>    
+    <input type="text" id="searchInput" placeholder="사과, 오렌지, 포도 중에 하나의 과일을 검색하세요">
+    <div id="searchResult"></div>
+    <script>
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                const context = this;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), wait);
+            };
+        }
+
+        const showSearchResults = debounce(function(event) {
+            var input = event.target.value;
+            var searchResult = document.getElementById('searchResult');
+            
+            searchResult.innerHTML = '';
+            if (input.length > 0) {
+                var results = ['사과', '사과사과', '오렌지', '오렌지오렌지', '오렌지오렌지오렌지', '포도', '포도포도'].filter(function(item) {
+                    return item.toLowerCase().includes(input.toLowerCase());
+                });
+
+                if (results.length > 0) {
+                    searchResult.style.display = 'block';
+                    results.forEach(function(item) {
+                        var element = document.createElement('div');
+                        element.classList.add('search-item');
+                        element.textContent = item;
+                        element.setAttribute('role', 'option');
+                        element.addEventListener('click', function() {
+                            document.getElementById('searchInput').value = item;
+                            searchResult.style.display = 'none';
+                        });
+                        searchResult.appendChild(element);
+                    });
+                } else {
+                    searchResult.style.display = 'block';
+                    var noResultElement = document.createElement('div');
+                    noResultElement.classList.add('search-item');
+                    noResultElement.textContent = "검색 결과가 없습니다.";
+                    searchResult.appendChild(noResultElement);
+                }
+            } else {
+                searchResult.style.display = 'none';
+            }
+        }, 250);
+
+        document.getElementById('searchInput').addEventListener('input', showSearchResults);
+
+    </script>
+</body>
+</html>
