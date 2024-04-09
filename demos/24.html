@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>예제 24</title>
+    <style>
+        :root {
+            --bg-color: #fff;
+            --text-color: #000;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #000;
+            --text-color: #fff;
+        }
+        body {
+            transition: background-color 0.5s, color 0.5s;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        .content {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<link href="./demos.css" rel="stylesheet">
+<script src="./nav.js"></script>
+<body>
+    <div class="content">
+        <h2>다크/라이트 모드</h2>
+        <p>다크/라이트 모드 예제를 구현했습니다.</p>
+    </div>
+    <button id="toggleDarkMode">다크 모드</button>
+
+    <script>
+        document.getElementById('toggleDarkMode').addEventListener('click', function() {
+            var body = document.body;
+            var toggleButton = document.getElementById('toggleDarkMode');
+            var currentTheme = body.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                body.setAttribute('data-theme', '');
+                toggleButton.textContent = '다크 모드';
+                toggleButton.setAttribute('aria-pressed', 'false');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                toggleButton.textContent = '라이트 모드';
+                toggleButton.setAttribute('aria-pressed', 'true');
+            }
+        });
+    </script>
+</body>
+</html>
