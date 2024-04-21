@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>예제 30</title>
+    <style>
+        body, html {
+            height: 100%;
+        }
+        .drop-area {
+            width: 100%;
+            height: 150px;
+            border: 1px dashed #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .drop-area p {
+            text-align: center;
+            color: #ccc;
+        }
+
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .gallery img {
+            width: 150px;
+            margin: 5px;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.1);
+        }
+        .close-btn {
+            position: absolute;
+            top: 10%; 
+            right: 25%;
+            color: #000;      
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        .fullscreen-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+
+        .fullscreen {
+            position: relative;
+            height: 500px;
+            max-width: 500px; 
+            max-height: 500px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<link href="./demos.css" rel="stylesheet">
+<script src="./nav.js"></script>
+<script src="./markdown.js"></script>
+<body>
+    <article class="markdown-body">
+# 이미지 뷰어
+
+사용자가 이미지를 드래그 앤 드롭하거나 파일 선택을 통해 업로드하고 업로드된 이미지를 클릭하면 풀스크린 모드로 볼 수 있는 기능을 구현했습니다.
+
+## JavaScript 로직
+
+### 이미지 드래그 앤 드롭
+- 드래그 앤 드롭 이벤트를 처리하고, 드롭된 파일들 중 이미지 파일만을 필터링하여 갤러리에 추가합니다.
+
+### 이미지 업로드 버튼
+- 업로드 버튼 클릭 시 숨겨진 파일 입력 필드를 통해 파일 선택 대화상자를 엽니다.
+
+### 파일 선택 처리
+- 파일 선택 시 선택된 이미지 파일들을 갤러리에 추가합니다.     
+    </article>
+    <div id="dropArea" class="drop-area">
+        <p>이미지를 드래그 앤 드롭하거나 이미지를 업로드하세요.<button id="uploadBtn">이미지 업로드</button></p>
+        <input type="file" id="fileInput" multiple style="display: none;">
+    </div>
+    <div id="gallery" class="gallery"></div>
+    <script>
+        function viewImage(img) {
+            const fullscreenBg = document.createElement('div');
+            fullscreenBg.classList.add('fullscreen-bg');
+
+            const closeBtn = document.createElement('button');
+            closeBtn.textContent = 'X';
+            closeBtn.classList.add('close-btn');
+            closeBtn.onclick = () => {
+                closeModal(fullscreenBg);
+            };
+
+            const cloneImg = img.cloneNode();
+            cloneImg.classList.add('fullscreen');
+
+            fullscreenBg.appendChild(cloneImg);
+            fullscreenBg.appendChild(closeBtn);
+
+            openModal(fullscreenBg);
+        }
+
+        function openModal(fullscreenBg) {
+            document.body.appendChild(fullscreenBg);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(fullscreenBg) {
+            document.body.removeChild(fullscreenBg);
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('dropArea').addEventListener('dragover', function(event) {
+            event.preventDefault();
+        });
+
+        document.getElementById('dropArea').addEventListener('drop', function(event) {
+            event.preventDefault();
+            const files = Array.from(event.dataTransfer.files);
+            uploadImages(files);
+        });
+
+        document.getElementById('uploadBtn').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('fileInput').addEventListener('change', function() {
+            const files = Array.from(this.files);
+            uploadImages(files);
+            this.value = '';
+        });
+
+        function uploadImages(files) {
+            files.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.onclick = () => viewImage(img);
+                        document.getElementById('gallery').appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>예제 29</title>
+    <style>
+        .game-container {
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        h1 {
+            width: 100%;
+        }
+        .btn_wrap {
+            width: 100%;
+        }
+        button {
+            width: 100px;
+            height: 40px;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            margin: 20px auto;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            border: 1px solid #333;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .cell.x {
+            color: red;
+        }
+
+        .cell.o {
+            color: blue;
+        }
+    </style>
+</head>
+<link href="./demos.css" rel="stylesheet">
+<script src="./nav.js"></script>
+<script src="./markdown.js"></script>
+<body>
+    <article class="markdown-body">
+# 틱택토 게임
+
+간단한 틱택토 게임을 구현했습니다.
+
+## JavaScript 로직
+
+### 게임 초기화 및 렌더링
+- `initGame` 함수는 페이지 로드 시 게임 상태를 불러와서 게임 보드를 초기화합니다.
+- `renderBoard` 함수는 게임 보드의 현재 상태를 기반으로 각 셀을 렌더링하고, 셀 클릭 이벤트 핸들러를 바인딩합니다.
+
+### 셀 클릭 핸들링
+- `handleCellClick` 함수는 사용자가 셀을 클릭할 때 호출되며, 셀의 상태를 업데이트하고, 차례를 변경한 후 게임 상태를 저장하고 보드를 다시 렌더링합니다.
+
+### 승자 확인
+- `checkForWinner` 함수는 게임의 승리 조건을 확인하고, 승자가 있거나 무승부인 경우 알림을 표시하고 게임을 재시작합니다.
+    </article>
+    <div class="game-container">
+        <h1>틱택토게임</h1>
+        <div id="gameBoard" class="board"></div>
+        <div class="btn_wrap">
+            <button onclick="restartGame()">게임 시작하기</button>
+        </div>
+    </div>
+    <script>
+        const gameBoard = document.getElementById('gameBoard');
+        let board = ['', '', '', '', '', '', '', '', ''];
+        let currentPlayer = 'X';
+        const winningCombinations = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
+
+        function initGame() {
+            const storedState = localStorage.getItem('ticTacToe');
+            if (storedState) {
+                board = JSON.parse(storedState).board;
+                currentPlayer = JSON.parse(storedState).currentPlayer;
+            }
+            renderBoard();
+        }
+
+        function renderBoard() {
+            gameBoard.innerHTML = '';
+            board.forEach((cell, index) => {
+                const cellElement = document.createElement('div');
+                cellElement.className = `cell ${cell.toLowerCase()}`;
+                cellElement.textContent = cell;
+                cellElement.addEventListener('click', () => handleCellClick(index));
+                gameBoard.appendChild(cellElement);
+            });
+            checkForWinner();
+        }
+
+        function handleCellClick(index) {
+            if (board[index] !== '') return;
+            board[index] = currentPlayer;
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            saveGame();
+            renderBoard();
+        }
+
+        function checkForWinner() {
+            for (let combo of winningCombinations) {
+                const [a, b, c] = combo;
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                    alert(`${board[a]} 승리!`);
+                    restartGame();
+                    return;
+                }
+            }
+            if (!board.includes('')) {
+                alert('무승부!');
+                restartGame();
+            }
+        }
+
+        function saveGame() {
+            localStorage.setItem('ticTacToe', JSON.stringify({ board, currentPlayer }));
+        }
+
+        function restartGame() {
+            board = ['', '', '', '', '', '', '', '', ''];
+            currentPlayer = 'X';
+            saveGame();
+            renderBoard();
+        }
+
+        window.onload
+    </script>
+</body>
+</html>

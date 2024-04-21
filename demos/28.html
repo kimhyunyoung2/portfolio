@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>예제 28</title>
+    <style>
+        .weather-container {
+            text-align: center;
+            border: 1px solid #ddd;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin: 10px;
+            width: 300px;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        #weatherDisplay {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<link href="./demos.css" rel="stylesheet">
+<script src="./nav.js"></script>
+<script src="./markdown.js"></script>
+<body>
+    <article class="markdown-body">
+# 실시간 날씨 정보 표시
+
+사용자가 입력한 도시의 날씨 정보를 실시간으로 검색하고 표시해주는 기능을 구현했습니다.
+
+## JavaScript 로직
+
+### 날씨 정보 검색 및 표시
+- `fetchWeather` 함수는 사용자가 입력한 도시에 대한 날씨 정보를 OpenWeatherMap API를 통해 비동기적으로 검색합니다.
+- 도시의 날씨 정보가 성공적으로 검색되면, 이를 `displayWeather` 함수를 통해 화면에 구조화된 형태로 표시합니다.
+- API 호출에 실패하거나 도시를 찾을 수 없는 경우, 사용자에게 오류 메시지를 보여줍니다.
+
+## 예외 처리
+- API로부터 응답이 오류를 포함하거나 도시를 찾을 수 없는 경우, 사용자에게 적절한 피드백을 제공하여 오류 상황을 안내합니다.
+    </article>
+    <div class="weather-container">
+        <h1>실시간 날씨 확인하기</h1>
+        <input type="text" id="cityInput" placeholder="영어로 도시를 입력하세요.">
+        <button onclick="fetchWeather()">찾기</button>
+        <div id="weatherDisplay"></div>
+    </div>
+    <script>
+        async function fetchWeather() {
+            const city = document.getElementById('cityInput').value;
+            const apiKey = '4e5f923750b2064d6951ff6a277b276d';
+            const encodedCity = encodeURIComponent(city);
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                displayWeather(data);
+            } catch (error) {
+                console.error('날씨 데이터를 가져오는 중에 오류가 발생했습니다.:', error);
+                displayWeather({ cod: 404, message: '도시를 찾을 수 없습니다.' });
+            }
+        }
+
+        function displayWeather(data) {
+            const weatherDisplay = document.getElementById('weatherDisplay');
+            if (data.cod !== 200) {
+                weatherDisplay.innerHTML = `<p>에러: ${data.message}</p>`;
+                return;
+            }
+
+            weatherDisplay.innerHTML = `
+                <h2>${data.name}</h2>
+                <p>온도: ${data.main.temp}°C</p>
+                <p>날씨: ${data.weather[0].main}</p>
+                <p>습도: ${data.main.humidity}%</p>
+            `;
+        }
+    </script>
+</body>
+</html>
